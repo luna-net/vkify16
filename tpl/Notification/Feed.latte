@@ -23,7 +23,7 @@
             'active' => $mode === 'archived'
         ]
     ]}
-    {var $data = is_array($iterator) ? $iterator : iterator_to_array($iterator)}
+    {var $data = is_iterable($iterator) ? (is_array($iterator) ? $iterator : iterator_to_array($iterator)) : []}
     {if sizeof($data) > 0}
         <div class="scroll_container">
             <div class="feedback_row scroll_node" n:attr="data-uniqueid => 'notif-' . $dat->getActionCode() . '-' . ($dat->originModel ? $dat->originModel->getId() : 0) . '-' . ($dat->targetModel ? $dat->targetModel->getId() : 0) . '-' . $dat->time" n:foreach="$data as $dat">

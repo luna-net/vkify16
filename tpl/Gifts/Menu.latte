@@ -10,7 +10,7 @@
             ['href' => $user->getURL(), 'title' => $user->getCanonicalName()],
             ['title' => tr("collections"), 'count' => $count]
         ]}
-        {var $data = is_array($iterator) ? $iterator : iterator_to_array($iterator)}
+        {var $data = is_iterable($iterator) ? (is_array($iterator) ? $iterator : iterator_to_array($iterator)) : []}
 
         {if sizeof($data) > 0}
             <div class="scroll_container">

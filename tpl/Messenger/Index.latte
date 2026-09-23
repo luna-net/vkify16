@@ -2,8 +2,9 @@
 {block title}{_my_messages}{/block}
 
 {block content}
-	{var $corresps = ($corresps ?? []) instanceof \Countable ? $corresps : iterator_to_array($corresps ?? [])}
-	{var $sendMessageButton = '<a href="/friends' . $thisUser->getId() . '" class="button">' . tr('send_message') . '</a>'}
+	{var $correspsSrc = $corresps ?? []}
+	{var $corresps = is_array($correspsSrc) ? $correspsSrc : (is_iterable($correspsSrc) ? iterator_to_array($correspsSrc) : [])}
+	{var $sendMessageButton = '<a href="/im?new" class="button">' . tr('send_message') . '</a>'}
 	<div class="page_block">
 		{include "../components/page_block_header.latte", title => "my_messages", count => sizeof($corresps), extra => $sendMessageButton}
 
@@ -11,12 +12,16 @@
 		    {if sizeof($corresps) > 0}
                 <ul class="im-page--dcontent">
 				{foreach $corresps as $coresp}
-					{var $lastMsg   = $coresp->getPreviewMessage()}
+					{var $recipients = method_exists($coresp, 'getCorrespondents') ? $coresp->getCorrespondents() : [$coresp, $coresp]}
+					{var $recipient = $recipients[1] ?? $recipients[0] ?? null}
+					{var $lastMsg   = method_exists($coresp, 'getPreviewMessage') ? $coresp->getPreviewMessage() : null}
+					{var $lastMsgSender = $lastMsg !== null ? $lastMsg->getSender() : $recipient}
+					{var $lastMsgText = $lastMsg !== null ? $lastMsg->getText() : ''}
+					{var $lastMsgTime = $lastMsg !== null ? $lastMsg->getSendTimeHumanized() : ''}
                     <li
-                        n:class="'nim-dialog nim-dialog_classic scroll_node', $lastMsg->getUnreadState() ? 'nim-dialog--unread'"
+                        n:class="'nim-dialog nim-dialog_classic scroll_node', ($lastMsg !== null && $lastMsg->getUnreadState()) ? 'nim-dialog--unread'"
                         data-uniqueid="conversation-{$coresp->getId()}"
                         onmousedown="window.open({$coresp->getURL()}, '_blank').focus();">
-                        {var $recipient = $coresp->getCorrespondents()[1]}
                         <div class="nim-dialog--photo">
                             <div n:class="nim-peer, $recipient->isOnline() ? online">
                                 <div class="nim-peer--photo-w">
@@ -34,7 +39,7 @@
                         <div class="nim-dialog--content"> 
                             <div class="nim-dialog--cw">
                                 <div class="nim-dialog--date_wrapper">
-                                    <div class="nim-dialog--date _im_dialog_date">{$lastMsg->getSendTimeHumanized()}</div>
+                                    <div class="nim-dialog--date _im_dialog_date">{$lastMsgTime}</div>
                                 </div>
 
                                 <div class="_im_dialog_title" title="{$recipient->getCanonicalName()}">
@@ -47,10 +52,10 @@
                                         <span class="nim-dialog--preview _dialog_body" tabindex="0">
                                             <span class="nim-dialog--who">
                                                 <div class="im-prebody">
-                                                    {include '../components/avatar.latte', author => $lastMsg->getSender(), size => 'miniscule', alt => ''}
+                                                    {include '../components/avatar.latte', author => $lastMsgSender, size => 'miniscule', alt => ''}
                                                 </div>
                                             </span>
-                                            <span class="nim-dialog--inner-text">{$lastMsg->getText()|truncate: 150}</span>
+                                            <span class="nim-dialog--inner-text">{$lastMsgText|truncate: 150}</span>
                                         </span>
                                     </div>
                                 </div>

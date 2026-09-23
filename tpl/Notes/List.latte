@@ -44,7 +44,7 @@
                     }
                 </div>
                 <div class="notes_list_layout scroll_container">
-                    {var $data = is_array($iterator) ? $iterator : iterator_to_array($iterator)}
+                    {var $data = is_iterable($iterator) ? (is_array($iterator) ? $iterator : iterator_to_array($iterator)) : []}
                     {if sizeof($data) > 0}
                         {foreach $data as $note}
                             {include "../components/notepost.latte", note => $note, commentSection => true, compact => true}
