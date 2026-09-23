@@ -197,16 +197,29 @@ body {
         0.5s box-shadow;
 }
 
-.layout {
+/* Page skeleton.
+   Core main.css declares the page container as `.layout, #page_layout { width: 791px }`.
+   The #id selector outranks any `.layout`-only rule, so the width has to be declared
+   for #page_layout as well - otherwise the theme silently falls back to the core 791px
+   layout and the 795px wide column stops fitting next to the 165px sidebar (the page
+   body then drops below the sidebar). Same goes for centering: keep both selectors. */
+.layout,
+#page_layout {
     width: var(--layout-width);
+    margin: 0 auto;
     transition: .2s width;
 }
 
-.page_body,
-.messenger-app,
-.crp-list {
+.page_body {
     width: var(--page-width);
     transition: .2s width;
+}
+
+/* The messenger and the conversations list are laid out by the core messages.css.
+   Do not constrain their width here (it used to be the legacy in-theme messenger). */
+.messenger-app,
+.crp-list {
+    width: 100%;
 }
 .page_content {
     width: 100%;
@@ -224,7 +237,7 @@ body {
     padding: 0;
     background-color: var(--transparent);
     box-shadow: none;
-    float: left;
+    float: right;
 }
 
 .wide_column {
