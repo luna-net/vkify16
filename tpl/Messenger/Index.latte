@@ -1,7 +1,8 @@
 {extends "../@layout.latte"}
-{block title}{_my_messages}{/block}/block}
+{block title}{_my_messages}{/block}
 
 {block content}
+	{var $corresps = ($corresps ?? []) instanceof \Countable ? $corresps : iterator_to_array($corresps ?? [])}
 	{var $sendMessageButton = '<a href="/friends' . $thisUser->getId() . '" class="button">' . tr('send_message') . '</a>'}
 	<div class="page_block">
 		{include "../components/page_block_header.latte", title => "my_messages", count => sizeof($corresps), extra => $sendMessageButton}
