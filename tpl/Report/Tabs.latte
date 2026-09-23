@@ -63,6 +63,11 @@
         'url' => '/scumfeed?act=doc',
         'title' => 'documents',
         'active' => $mode === 'doc'
+    ],
+    [
+        'url' => '/scumfeed?act=message',
+        'title' => 'messages',
+        'active' => $mode === 'message'
     ]
 ]}
 {include "../components/ui_rmenu.latte", items => $tabs}

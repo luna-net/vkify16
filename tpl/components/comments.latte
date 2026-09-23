@@ -1,4 +1,4 @@
-{var $canComment = isset($thisUser)}
+{var $canComment = $thisUser && $parent->canBeCommentedBy($thisUser)}
 {var $parentPrefix = match($model ?? '') {
     'photos' => '/photo',
     'videos' => '/video',
@@ -8,11 +8,11 @@
     default => null
 }}
 {var $commentsFetchUrl = $parentPrefix && isset($parent) ? ($parentPrefix . $parent->getPrettyId() . (isset($sort) && $sort ? ('?sort=' . $sort) : '')) : null}
-{if sizeof($comments) > 0 || $canComment}
+{if $count > 0 || $canComment}
     <div id="replies" class="page_block comments">
         {if isset($sort) && !is_null($sort) && $count > 5}
             <div class="post_replies_header">
-            <a class="sort_link" n:attr="href => $sort == 'desc' ? '?sort=asc' : '?sort=desc'">
+            <a class="sort_link" onclick="click_on_sort(event)" n:attr="href => $sort == 'desc' ? '?sort=asc' : '?sort=desc'">
                 {if $sort == 'desc'}
                     {_new_first}
                 {else}
@@ -31,7 +31,7 @@
                 {include "paginator.latte", conf => (object) ["page" => $page, "count" => $count, "amount" => sizeof($comments), "perPage" => 10, "fetchUrl" => $commentsFetchUrl]}
             </div>
         {else}
-            {include "../components/content_error.latte", icon => "first_comment.png", description=> tr("comments_tip")}
+            {include "../components/content_error.latte", icon => "first_comment.png", description=> tr("comments_tip"), htmlId => "none_tip"}
             <div class='scroll_container' n:attr="data-fetch-url => $commentsFetchUrl"></div>
         {/if}
     </div>

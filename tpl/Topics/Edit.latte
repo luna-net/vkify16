@@ -7,7 +7,7 @@
         {include "../components/page_crumb_header.latte", crumbs: [
             ['href' => $club->getURL(), 'title' => $club->getCanonicalName()],
             ['href' => "/board{$club->getId()}", 'title' => tr("discussions")],
-            ['title' => $topic->getTitle()]
+            ['href' => "/topic{$topic->getPrettyId()}", 'title' => $topic->getTitle()]
         ]}
         <div class="form_group label_end settings_padding" style="width: 455px;margin-inline: auto;">
             <form method="POST" enctype="multipart/form-data">

@@ -58,7 +58,7 @@
                                 <i class="action_icon"></i>
                                 <span class="action_label">{_download_file}</span>
                             </a>
-                            <a n:if="$modifiable" class="action_button post_edit" id="edit_icon">
+                            <a n:if="$modifiable" class="action_button post_edit" id="edit_icon" onclick="window.e = event; onEditIconButtonClick(event)">
                                 <i class="action_icon"></i>
                                 <span class="action_label">{_edit}</span>
                             </a>

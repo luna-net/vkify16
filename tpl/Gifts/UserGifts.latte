@@ -45,6 +45,8 @@
                     {if $user->getId() === $thisUser->getId() && !$x->anon}
                         <div class="gift_button">
                             <a href="/gifts?act=pick&user={$x->sender->getId()}" class="button ">{_send_gift}</a>
+                            &nbsp;
+                            <a onclick="delete_gift(event, {$x->id})">{_delete}</a>
                         </div>
                     {/if}
                 </div>

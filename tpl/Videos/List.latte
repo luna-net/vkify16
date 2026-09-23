@@ -10,7 +10,7 @@
         {include "../components/page_crumb_header.latte", crumbs: [
             ['href' => $user->getURL(), 'title' => $user->getCanonicalName()],
             ['title' => tr("videos"), 'count' => $count]
-        ], extra => '<a class="button" href="javascript:showFastVideoUpload()">'.tr("upload_video").'</a>'
+        ], extra => (isset($thisUser) && !\OPENVK_ROOT_CONF['openvk']['preferences']['videos']['disableUploading']) ? (($user->getRealId() == $thisUser->getId()) ? '<a class="button" href="javascript:showFastVideoUpload()">'.tr("upload_video").'</a>' : (($user->getRealId() < 0 && $user->canUploadVideo($thisUser)) ? '<a class="button" href="/videos/upload?gid='.$user->getId().'">'.tr("upload_video").'</a>' : '')) : ''
         }
         {include "../components/search_bar.latte",
             id => 'videos_search_header',

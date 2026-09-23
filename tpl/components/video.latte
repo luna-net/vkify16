@@ -18,12 +18,12 @@
                 </div>
                 <div class="video_thumb_actions" n:if="isset($thisUser) && $thisUser->getId() === $video->getOwner()->getId()">
                     <div>
-                        <a href="/video{$video->getPrettyId()}/edit" onclick="event.preventDefault(); showEditVideoModal({$video->getPrettyId()})" class="video_thumb_action_edit" title="{tr('edit')}">
+                        <a href="/video{$video->getPrettyId()}/edit" onclick="event.preventDefault(); edit_video(event)" class="video_thumb_action_edit" title="{tr('edit')}">
                             <div class="icon"></div>
                         </a>
                     </div>
                     <div>
-                        <a href="/video{$video->getPrettyId()}/remove" class="video_thumb_action_delete" title="{tr('delete')}">
+                        <a id="_videoDelete" href="/video{$video->getPrettyId()}/remove" class="video_thumb_action_delete" title="{tr('delete')}">
                             <div class="icon"></div>
                         </a>
                     </div>

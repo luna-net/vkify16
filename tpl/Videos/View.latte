@@ -7,7 +7,7 @@
     <div class='page_block'>
         {include "../components/page_crumb_header.latte", crumbs: [
             ['href' => $user->getURL(), 'title' => $user->getCanonicalName()],
-            ['href' => "/videos{$user->getId()}", 'title' => tr("videos")],
+            ['href' => "/videos{$user->getRealId()}", 'title' => tr("videos")],
             ['title' => $video->getName()]
         ]}
         <div class="video_block_layout" style="padding-top: 20px;">
@@ -33,7 +33,8 @@
                     {if isset($thisUser)}
                         {if $thisUser->getId() != $video->getOwner()->getId()}
                             {var $canReport = true}
-                        {else}
+                        {/if}
+                        {if $video->canBeModifiedBy($thisUser)}
                             {var $canEdit = true}
                         {/if}
                         {var $liked = $video->hasLikeFrom($thisUser)}
@@ -50,10 +51,10 @@
                         <span class="video_info_more_actions ui_actions_menu_wrap" onmouseover="uiActionsMenu.show(this);" onmouseout="uiActionsMenu.hide(this);">
                             <div class="button button_light _more_wrap">{_show_more}</div>
                             <div id="videoMoreActionsTooltip" class="ui_actions_menu">
-                                <a n:if="$canEdit ?? false" href="javascript:showEditVideoModal('{$video->getPrettyId()}')">
+                                <a n:if="$canEdit ?? false" href="/video{$video->getPrettyId()}/edit" onclick="edit_video(event)">
                                     {tr('edit')}
                                 </a>
-                                <a n:if="$canEdit ?? false" href="/video{$video->getPrettyId()}/remove">
+                                <a n:if="$canEdit ?? false" id="_videoDelete" href="/video{$video->getPrettyId()}/remove">
                                     {tr('delete')}
                                 </a>
                                 <a n:if="$canReport ?? false" href="javascript:reportVideo({$video->getId()})">

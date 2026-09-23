@@ -65,7 +65,7 @@
         <div class="wide_column">
             {capture $uploadBtnExtra}
                 {if $canUpload}
-                    <input id='upload_entry_point' class='button' type='button' value='{_upload_button}' {if isset($group)}data-gid='{$group->getId()}'{/if}>
+                    <input id='upload_entry_point' onclick="onUploadEntryPointClick(event)" class='button' type='button' value='{_upload_button}' {if isset($group)}data-gid='{$group->getId()}'{/if}>
                 {/if}
             {/capture}
             <div class="page_block">

@@ -1,17 +1,5 @@
-{extends "../@layout.latte"}
-{var $transparentAppbar = true}
+﻿{var $transparentAppbar = true}
 
-{block title}{$user->getCanonicalName()}{/block}
-
-{block appbar_extra}
-{ifset $thisUser}
-<div class="mobileonly" id="profile_appbar_extra">
-    <button class="appbar-extra-btn ui_actions_menu_wrap ui_actions_menu_no_chevron" id="profileAppbarMoreBtn" aria-label="More actions" onclick='{="uiActionsMenu.toggle(this, null, {menuId: \"profile_actions_tooltip\", noAnimate: true});"|noescape}'>
-        <svg viewBox="0 0 12 24" width="22" height="22" fill="currentColor"><use href="#more-vertical-24"></use></svg>
-    </button>
-</div>
-{/ifset}
-{/block}
 
 {define mobileProfile}
     {include '../components/mobile_profile_hero.latte', entity => $user, name => $user->getFullName(), status => tr('user_is_blocked'), verified => $user->isVerified(), disablePhotoViewer => true}
@@ -29,7 +17,6 @@
     </div>
 {/define}
 
-{block content}
     {include #mobileProfile}
 
     <div class="wide_column_right nomobile">
@@ -77,17 +64,17 @@
 {ifset $thisUser}
     <script n:if="$thisUser->getChandlerUser()->can('access')->model('admin')->whichBelongsTo(NULL)">
         function unbanUser() {
-            uUnbanMsgTxt  = "Вы собираетесь разбанить пользователя " + {$user->getCanonicalName()} + ".";
-            uUnbanMsgTxt += "<br/>Сейчас он заблокирован по причине: <strong>" + {$user->getBanReason()} + "</strong>.";
-            MessageBox("Разбанить " + {$user->getFirstName()}, uUnbanMsgTxt, ["Подтвердить", "Отмена"], [
+            uUnbanMsgTxt  = "Р’С‹ СЃРѕР±РёСЂР°РµС‚РµСЃСЊ СЂР°Р·Р±Р°РЅРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ " + {$user->getCanonicalName()} + ".";
+            uUnbanMsgTxt += "<br/>РЎРµР№С‡Р°СЃ РѕРЅ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅ РїРѕ РїСЂРёС‡РёРЅРµ: <strong>" + {$user->getBanReason()} + "</strong>.";
+            MessageBox("Р Р°Р·Р±Р°РЅРёС‚СЊ " + {$user->getFirstName()}, uUnbanMsgTxt, ["РџРѕРґС‚РІРµСЂРґРёС‚СЊ", "РћС‚РјРµРЅР°"], [
                 (function() {
                     xhr = new XMLHttpRequest();
                     xhr.open("GET", "/admin/unban/" + {$user->getId()} + "?hash=" + {rawurlencode($csrfToken)}, true);
                     xhr.onload = (function() {
                         if(xhr.responseText.indexOf("success") === -1)
-                            MessageBox("Ошибка", "Не удалось разблокировать пользователя...", ["OK"], [Function.noop]);
+                            MessageBox("РћС€РёР±РєР°", "РќРµ СѓРґР°Р»РѕСЃСЊ СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ...", ["OK"], [Function.noop]);
                         else
-                            MessageBox("Операция успешна", "Пользователь разблокирован", ["OK"], [Function.noop]);
+                            MessageBox("РћРїРµСЂР°С†РёСЏ СѓСЃРїРµС€РЅР°", "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°РЅ", ["OK"], [Function.noop]);
                     });
                     xhr.send(null);
                 }),
@@ -96,20 +83,20 @@
         }
 
         function warnUser() {
-            uBanMsgTxt  = "Вы собираетесь предупредить пользователя " + {$user->getCanonicalName()} + ".";
-            uBanMsgTxt += "<br/>Мы отправим уведомление пользователю в личные сообщения от имени аккаунта администратора.";
-            uBanMsgTxt += "<br/><br/><b>Текст предупреждения</b>: <input type='text' id='uWarnMsgInput' placeholder='придумайте что-нибудь крутое' />";
+            uBanMsgTxt  = "Р’С‹ СЃРѕР±РёСЂР°РµС‚РµСЃСЊ РїСЂРµРґСѓРїСЂРµРґРёС‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ " + {$user->getCanonicalName()} + ".";
+            uBanMsgTxt += "<br/>РњС‹ РѕС‚РїСЂР°РІРёРј СѓРІРµРґРѕРјР»РµРЅРёРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ РІ Р»РёС‡РЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РёРјРµРЅРё Р°РєРєР°СѓРЅС‚Р° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°.";
+            uBanMsgTxt += "<br/><br/><b>РўРµРєСЃС‚ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЏ</b>: <input type='text' id='uWarnMsgInput' placeholder='РїСЂРёРґСѓРјР°Р№С‚Рµ С‡С‚Рѕ-РЅРёР±СѓРґСЊ РєСЂСѓС‚РѕРµ' />";
 
-            MessageBox("Выдать предупреждение " + {$user->getFirstName()}, uBanMsgTxt, ["Подтвердить", "Отмена"], [
+            MessageBox("Р’С‹РґР°С‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ " + {$user->getFirstName()}, uBanMsgTxt, ["РџРѕРґС‚РІРµСЂРґРёС‚СЊ", "РћС‚РјРµРЅР°"], [
                 (function() {
                     res = document.querySelector("#uWarnMsgInput").value;
                     xhr = new XMLHttpRequest();
                     xhr.open("GET", "/admin/warn/" + {$user->getId()} + "?message=" + res + "&hash=" + {rawurlencode($csrfToken)}, true);
                     xhr.onload = (function() {
                         if(xhr.responseText.indexOf("message") === -1)
-                            MessageBox("Ошибка", "Не удалось отправить предупреждение...", ["OK"], [Function.noop]);
+                            MessageBox("РћС€РёР±РєР°", "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ...", ["OK"], [Function.noop]);
                         else
-                            MessageBox("Операция успешна", "Предупреждение отправлено", ["OK"], [Function.noop]);
+                            MessageBox("РћРїРµСЂР°С†РёСЏ СѓСЃРїРµС€РЅР°", "РџСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ РѕС‚РїСЂР°РІР»РµРЅРѕ", ["OK"], [Function.noop]);
                     });
                     xhr.send(null);
                 }),
@@ -120,17 +107,17 @@
     <script n:if="$thisUser->getChandlerUser()->can('write')->model('openvk\Web\Models\Entities\TicketReply')->whichBelongsTo(0)">
         {if $user->isBannedInSupport()}
             function toggleBanInSupport() {
-                uBanMsgTxt  = "Вы собираетесь разблокировать в поддержке пользователя " + {$user->getCanonicalName()} + ".";
-                uBanMsgTxt += "<br/>Сейчас он заблокирован по причине <strong>" + {$user->getBanInSupportReason()} + "</strong>.";
-                MessageBox("Разблокировать в поддержке " + {$user->getFirstName()}, uBanMsgTxt, ["Подтвердить", "Отмена"], [
+                uBanMsgTxt  = "Р’С‹ СЃРѕР±РёСЂР°РµС‚РµСЃСЊ СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РІ РїРѕРґРґРµСЂР¶РєРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ " + {$user->getCanonicalName()} + ".";
+                uBanMsgTxt += "<br/>РЎРµР№С‡Р°СЃ РѕРЅ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅ РїРѕ РїСЂРёС‡РёРЅРµ <strong>" + {$user->getBanInSupportReason()} + "</strong>.";
+                MessageBox("Р Р°Р·Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РІ РїРѕРґРґРµСЂР¶РєРµ " + {$user->getFirstName()}, uBanMsgTxt, ["РџРѕРґС‚РІРµСЂРґРёС‚СЊ", "РћС‚РјРµРЅР°"], [
                     (function() {
                         xhr = new XMLHttpRequest();
                         xhr.open("GET", "/admin/support/unban/" + {$user->getId()} + "?hash=" + {rawurlencode($csrfToken)}, true);
                         xhr.onload = (function() {
                             if(xhr.responseText.indexOf("success") === -1)
-                                MessageBox("Ошибка", "Не удалось разблокировать пользователя в поддержке...", ["OK"], [Function.noop]);
+                                MessageBox("РћС€РёР±РєР°", "РќРµ СѓРґР°Р»РѕСЃСЊ СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ РїРѕРґРґРµСЂР¶РєРµ...", ["OK"], [Function.noop]);
                             else
-                                MessageBox("Операция успешна", "Пользователь разблокирован в поддержке", ["OK"], [Function.noop]);
+                                MessageBox("РћРїРµСЂР°С†РёСЏ СѓСЃРїРµС€РЅР°", "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СЂР°Р·Р±Р»РѕРєРёСЂРѕРІР°РЅ РІ РїРѕРґРґРµСЂР¶РєРµ", ["OK"], [Function.noop]);
                         });
                         xhr.send(null);
                     }),
@@ -139,18 +126,18 @@
             }
         {else}
             function toggleBanInSupport() {
-                uBanMsgTxt  = "Вы собираетесь заблокировать в поддержке пользователя " + {$user->getCanonicalName()} + ".";
-                uBanMsgTxt += "<br/><br/><b>Причина бана</b>: <input type='text' id='uBanMsgInput' placeholder='придумайте что-нибудь крутое' />";
-                MessageBox("Заблокировать в поддержке " + {$user->getFirstName()}, uBanMsgTxt, ["Подтвердить", "Отмена"], [
+                uBanMsgTxt  = "Р’С‹ СЃРѕР±РёСЂР°РµС‚РµСЃСЊ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РІ РїРѕРґРґРµСЂР¶РєРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ " + {$user->getCanonicalName()} + ".";
+                uBanMsgTxt += "<br/><br/><b>РџСЂРёС‡РёРЅР° Р±Р°РЅР°</b>: <input type='text' id='uBanMsgInput' placeholder='РїСЂРёРґСѓРјР°Р№С‚Рµ С‡С‚Рѕ-РЅРёР±СѓРґСЊ РєСЂСѓС‚РѕРµ' />";
+                MessageBox("Р—Р°Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РІ РїРѕРґРґРµСЂР¶РєРµ " + {$user->getFirstName()}, uBanMsgTxt, ["РџРѕРґС‚РІРµСЂРґРёС‚СЊ", "РћС‚РјРµРЅР°"], [
                     (function() {
                         res = document.querySelector("#uBanMsgInput").value;
                         xhr = new XMLHttpRequest();
                         xhr.open("GET", "/admin/support/ban/" + {$user->getId()} + "?reason=" + res + "&hash=" + {rawurlencode($csrfToken)}, true);
                         xhr.onload = (function() {
                             if(xhr.responseText.indexOf("success") === -1)
-                                MessageBox("Ошибка", "Не удалось заблокировать пользователя в поддержке...", ["OK"], [Function.noop]);
+                                MessageBox("РћС€РёР±РєР°", "РќРµ СѓРґР°Р»РѕСЃСЊ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°С‚СЊ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РІ РїРѕРґРґРµСЂР¶РєРµ...", ["OK"], [Function.noop]);
                             else
-                                MessageBox("Операция успешна", "Пользователь заблокирован в поддержке", ["OK"], [Function.noop]);
+                                MessageBox("РћРїРµСЂР°С†РёСЏ СѓСЃРїРµС€РЅР°", "РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р·Р°Р±Р»РѕРєРёСЂРѕРІР°РЅ РІ РїРѕРґРґРµСЂР¶РєРµ", ["OK"], [Function.noop]);
                         });
                         xhr.send(null);
                     }),
@@ -160,4 +147,3 @@
         {/if}
     </script>
 {/ifset}
-{/block}

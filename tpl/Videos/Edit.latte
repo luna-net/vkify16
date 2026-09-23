@@ -9,8 +9,8 @@
 {block content}
 <div class="page_block">
     {include "../components/page_crumb_header.latte", crumbs: [
-        ['href' => $thisUser->getURL(), 'title' => $thisUser->getCanonicalName()],
-        ['href' => "/videos{$thisUser->getId()}", 'title' => tr("videos")],
+        ['href' => $owner->getURL(), 'title' => $owner->getCanonicalName()],
+        ['href' => "/videos{$owner->getId()}", 'title' => tr("videos")],
         ['href' => "/video{$video->getPrettyId()}", 'title' => $video->getName()],
         ['title' => tr("change_video")]
     ]}
@@ -27,6 +27,10 @@
                 <div class="form_data">
                     <textarea name="desc">{$video->getDescription()}</textarea>
                 </div>
+            </div>
+            <div class="form_field" n:if="$video->isUnlisted()">
+                <div class="form_label"></div>
+                <div class="form_data">{tr("unlisted")}</div>
             </div>
             <input type="hidden" name="hash" value="{$csrfToken}" />
         </form>

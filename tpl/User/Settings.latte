@@ -294,6 +294,17 @@
                                     </div>
                                 </div>
                                 <div class="form_field settings_privacy_row">
+                                    <div class="form_label">{_privacy_setting_see_online}</div>
+                                    <div class="form_data">
+                                        <select name="page.online.read">
+                                            <option value="3" {if $user->getPrivacySetting('page.online.read') == 3}selected{/if}>{_privacy_value_anybody_short}</option>
+                                            <option value="2" {if $user->getPrivacySetting('page.online.read') == 2}selected{/if}>{_privacy_value_users_nominative}</option>
+                                            <option value="1" {if $user->getPrivacySetting('page.online.read') == 1}selected{/if}>{_privacy_value_friends}</option>
+                                            <option value="0" {if $user->getPrivacySetting('page.online.read') == 0}selected{/if}>{_privacy_value_nobody}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form_field settings_privacy_row">
                                     <div class="form_label">{_privacy_setting_see_groups}</div>
                                     <div class="form_data">
                                         <select name="groups.read">
@@ -369,6 +380,17 @@
                                     </div>
                                 </div>
                                 <div class="form_field settings_privacy_row">
+                                    <div class="form_label">{_privacy_setting_view_gifts}</div>
+                                    <div class="form_data">
+                                        <select name="gifts.read">
+                                            <option value="3" {if $user->getPrivacySetting('gifts.read') == 3}selected{/if}>{_privacy_value_anybody_dative}</option>
+                                            <option value="2" {if $user->getPrivacySetting('gifts.read') == 2}selected{/if}>{_privacy_value_users}</option>
+                                            <option value="1" {if $user->getPrivacySetting('gifts.read') == 1}selected{/if}>{_privacy_value_friends_dative}</option>
+                                            <option value="0" {if $user->getPrivacySetting('gifts.read') == 0}selected{/if}>{_privacy_value_only_me_dative}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form_field settings_privacy_row">
                                     <div class="form_label">{_privacy_setting_write_wall}</div>
                                     <div class="form_data">
                                         <select name="wall.write">
@@ -385,6 +407,16 @@
                                             <option value="2" {if $user->getPrivacySetting('messages.write') == 2}selected{/if}>{_privacy_value_anybody}</option>
                                             <option value="1" {if $user->getPrivacySetting('messages.write') == 1}selected{/if}>{_privacy_value_friends}</option>
                                             <option value="0" {if $user->getPrivacySetting('messages.write') == 0}selected{/if}>{_privacy_value_nobody}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <p class="nobold" style="margin: 4px 0 10px;">{_privacy_setting_write_messages_tip}</p>
+                                <div class="form_field settings_privacy_row">
+                                    <div class="form_label">{_privacy_setting_add_in_chats}</div>
+                                    <div class="form_data">
+                                        <select name="messages.add_to_chats">
+                                            <option value="1" {if $user->getPrivacySetting('messages.add_to_chats') == 1}selected{/if}>{_privacy_value_friends}</option>
+                                            <option value="0" {if $user->getPrivacySetting('messages.add_to_chats') == 0}selected{/if}>{_privacy_value_nobody}</option>
                                         </select>
                                     </div>
                                 </div>

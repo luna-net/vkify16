@@ -118,6 +118,10 @@
                                             <input type="checkbox" name="display_topics_above_wall" value="1" n:attr="checked => $club->isDisplayTopicsAboveWallEnabled()" />
                                             <span>{_display_list_of_topics_above_wall}</span>
                                         </label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="is_messages_enabled" value="1" n:attr="checked => $club->isMessagesEnabled()" />
+                                            <span>{_enable_group_messages}</span>
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="form_separator"></div>
@@ -141,11 +145,15 @@
                                 </div>
                                 <div class="form_separator"></div>
                                 <div class="form_field">
-                                    <div class="form_label">{_audios}</div>
+                                    <div class="form_label">{_club_edit_section_media}</div>
                                     <div class="form_data">
                                         <label class="checkbox">
                                             <input type="checkbox" name="upload_audios" value="1" n:attr="checked => $club->isEveryoneCanUploadAudios()" />
                                             <span>{_everyone_can_upload_audios}</span>
+                                        </label>
+                                        <label class="checkbox">
+                                            <input type="checkbox" name="upload_videos" value="1" n:attr="checked => $club->isEveryoneCanUploadVideos()" />
+                                            <span>{_everyone_can_upload_videos}</span>
                                         </label>
                                     </div>
                                 </div>

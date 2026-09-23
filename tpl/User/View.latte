@@ -1,7 +1,9 @@
 {extends "../@layout.latte"}
 {php if (!function_exists('vkifyFormatCount')) require_once \OPENVK_ROOT . '/themepacks/vkify16/res/php/vkify_helpers.php';}
 
-{var $backdrops = $user->getBackDropPictureURLs()}
+{if !$user->isBanned()}
+    {var $backdrops = $user->getBackDropPictureURLs()}
+{/if}
 
 {var $transparentAppbar = true}
 
@@ -372,6 +374,7 @@
 {/define}
 
 {block content}
+	{if !$user->isBanned()}
 	{var $thatIsThisUser = isset($thisUser) && $user->getId() == $thisUser->getId()}
     {var $videos = iterator_to_array($videos)}
     {var $audios = iterator_to_array((new \openvk\Web\Models\Repositories\Audios())->getByEntityID($user->getId(), 0, 3))}
@@ -1176,5 +1179,9 @@
 			}
 		{/if}
 	</script>
+    {/if}
+
+    {else} {* isBanned() *}
+        {include "banned.latte"}
     {/if}
 {/block}

@@ -444,7 +444,7 @@
 												<a href="javascript:void(0)" data-event-action="notgoing">{_leave_community}</a>
 											{/if}
 											<div class="separator"></div>
-											<a n:if="!$club->isHideFromGlobalFeedEnabled()" id="__ignoreSomeone" data-val='{!$ignore_status ? 1 : 0}' data-id="{$club->getRealId()}">
+											<a n:if="!$club->isHideFromGlobalFeedEnabled()" onclick="onIgnoreSomeoneClick(event)" id="__ignoreSomeone" data-val='{!$ignore_status ? 1 : 0}' data-id="{$club->getRealId()}">
 												{if !$ignore_status}{_ignore_club}{else}{_unignore_club}{/if}
 											</a>
 										</div>
@@ -473,7 +473,10 @@
 												<a href="/admin/clubs/id{$club->getId()}">{_manage_group_action}</a>
 												<a href="/admin/logs?obj_id={$club->getId()}&obj_type=Club">{_last_actions}</a>
 											{/if}
-											{var $canReport = $thisUser->getId() != $club->getOwner()->getId()}
+											{if !$canEdit && $club->canWriteMessage($thisUser)}
+									<a onclick="showUserDialog(event, {$club->getRealId()})}" href="/im?sel={$club->getRealId()}">{_send_message}</a>
+								{/if}
+								{var $canReport = $thisUser->getId() != $club->getOwner()->getId()}
 											<a n:if="$canReport" href="javascript:reportClub({$club->getId()})">{_report}</a>
 									</div>
 								</div>
