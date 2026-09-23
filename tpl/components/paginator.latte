@@ -1,10 +1,11 @@
 {var $space = $conf->space ?? 3}
-{var $pageCount = ceil($conf->count / $conf->perPage)}
+{var $perPage = $conf->perPage ?: 1}
+{var $pageCount = ceil(($conf->count ?? 0) / $perPage)}
 {var $legacyPaginator = (isset($legacyPaginator) ? $legacyPaginator : false)}
 {var $atTop = isset($conf->atTop) ? $conf->atTop : null}
 {var $tidy = isset($conf->tidy) ? $conf->tidy : null}
 {var $nextPage = $conf->page < $pageCount ? $conf->page + 1 : $pageCount}
-{var $showPaginator = !($conf->page === 1 && $conf->count <= $conf->perPage)}
+{var $showPaginator = !($conf->page === 1 && ($conf->count ?? 0) <= $perPage)}
 {var $fetchUrl = $conf->fetchUrl ?? null}
 {var $pageUrlPrefix = $fetchUrl ? ($fetchUrl . (str_contains($fetchUrl, '?') ? '&p=' : '?p=')) : null}
 
