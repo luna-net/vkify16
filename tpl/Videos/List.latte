@@ -25,7 +25,7 @@
             class => 'videos_search_header'
         }
         <div class="video_block_layout">
-            {var $data = is_array($iterator) ? $iterator : iterator_to_array($iterator)}
+            {var $data = is_iterable($iterator) ? (is_array($iterator) ? $iterator : iterator_to_array($iterator)) : []}
             {if sizeof($data) > 0}
                 <div class="video_items_list scroll_container">
                     {foreach $data as $x}

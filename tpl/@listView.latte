@@ -32,7 +32,7 @@
                     {include tabs}
                {/ifset}
                 <div class="list_view scroll_container">
-                    {var $data = is_array($iterator) ? $iterator : iterator_to_array($iterator)}
+                    {var $data = is_iterable($iterator) ? (is_array($iterator) ? $iterator : iterator_to_array($iterator)) : []}
 
                     {ifset top}
                         {include top, x => $dat}
